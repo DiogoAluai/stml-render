@@ -16,7 +16,7 @@ public class SimpleTextNode {
     private List<Attr> attributes;
 
     public SimpleTextNode() {
-        nodeType = UNSPECIFIED;
+        this.nodeType = UNSPECIFIED;
         this.text = "";
         this.childNodes = new ArrayList<>();
     }

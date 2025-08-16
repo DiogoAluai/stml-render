@@ -5,6 +5,7 @@ import daluai.sttp.sttp_render.parse.SimpleTextParsingException;
 import java.util.Arrays;
 
 public enum SimpleTextNodeType {
+
     STML,
     GRID,
     TEXT,
