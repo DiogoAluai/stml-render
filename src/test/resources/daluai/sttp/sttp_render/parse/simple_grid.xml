@@ -1,0 +1,11 @@
+<stml version="1">
+    <grid color="dsa">
+        <text>Hello1</text>
+        <text>Hello2</text>
+        <grid color="ddd">h
+            k
+            <text>nice text</text>
+        </grid>
+        <text>Hello3</text>
+    </grid>
+</stml>
