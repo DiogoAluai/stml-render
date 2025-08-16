@@ -1,11 +1,11 @@
-package daluai.sttp.sttp_render;
+package daluai.sttp.sttp_render.simple_text;
 
 import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static daluai.sttp.sttp_render.SimpleTextNodeType.UNSPECIFIED;
+import static daluai.sttp.sttp_render.simple_text.SimpleTextNodeType.UNSPECIFIED;
 
 public class SimpleTextNode {
 

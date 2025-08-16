@@ -1,4 +1,4 @@
-package daluai.sttp.sttp_render;
+package daluai.sttp.sttp_render.parse;
 
 public class SimpleTextParsingException extends RuntimeException {
 

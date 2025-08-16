@@ -1,6 +1,6 @@
 package daluai.sttp.sttp_render.parse;
 
-import daluai.sttp.sttp_render.SimpleTextNodeType;
+import daluai.sttp.sttp_render.simple_text.SimpleTextNodeType;
 import daluai.sttp.sttp_render.TestUtils;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;

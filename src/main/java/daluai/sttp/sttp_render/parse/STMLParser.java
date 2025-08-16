@@ -1,9 +1,8 @@
 package daluai.sttp.sttp_render.parse;
 
-import daluai.sttp.sttp_render.SimpleTextAttribute;
-import daluai.sttp.sttp_render.SimpleTextNode;
-import daluai.sttp.sttp_render.SimpleTextNodeType;
-import daluai.sttp.sttp_render.SimpleTextParsingException;
+import daluai.sttp.sttp_render.simple_text.SimpleTextAttribute;
+import daluai.sttp.sttp_render.simple_text.SimpleTextNode;
+import daluai.sttp.sttp_render.simple_text.SimpleTextNodeType;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
