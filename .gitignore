@@ -1,3 +1,7 @@
+run.sh
+debug.sh
+
+
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 

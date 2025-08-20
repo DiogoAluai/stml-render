@@ -35,6 +35,9 @@ public class STMLParser {
         }
     }
 
+    /**
+     * Return head node
+     */
     public static SimpleTextNode parse(String xmlFileName) throws IOException, SAXException {
         File xmlFile = new File(xmlFileName);
         Document doc = builder.parse(xmlFile);

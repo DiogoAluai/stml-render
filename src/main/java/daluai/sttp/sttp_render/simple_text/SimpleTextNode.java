@@ -4,10 +4,15 @@ import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 import static daluai.sttp.sttp_render.simple_text.SimpleTextNodeType.UNSPECIFIED;
 
 public class SimpleTextNode {
+
+    private static final int DEFAULT_WEIGHT = 1;
+    private static final Alignment DEFAULT_ALIGNMENT = Alignment.VERTICAL;
 
     private List<SimpleTextNode> childNodes;
 
@@ -58,5 +63,25 @@ public class SimpleTextNode {
 
     public void setAttributes(List<Attr> attributes) {
         this.attributes = attributes;
+    }
+
+    public int getWeight() {
+        return getAttributeValue(SimpleTextAttribute.WEIGHT, Integer::parseInt, DEFAULT_WEIGHT);
+    }
+
+    public Alignment getAlignment() {
+        return getAttributeValue(SimpleTextAttribute.ALIGNMENT, Alignment::parse, DEFAULT_ALIGNMENT);
+    }
+
+    private <T> T getAttributeValue(SimpleTextAttribute attribute, Function<String, T> parsingFunction, T defaultValue) {
+        //todo improve during parsing: so that we have safety at this point
+        Optional<Attr> attrOptional = attributes.stream()
+                .filter(attr -> attribute.name().equalsIgnoreCase(attr.getName()))
+                .findFirst();
+        if (attrOptional.isEmpty()) {
+            return defaultValue;
+        }
+
+        return parsingFunction.apply(attrOptional.get().getValue());
     }
 }
