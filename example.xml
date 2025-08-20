@@ -1,5 +1,5 @@
 <stml version="1">
-    <text color="dsa">Hello</text>
-    <text color="asd" weight="4">I am\n</text>
-    <text color="asd" weight="3">Iron Man</text>
+    <text color="dsa">Hello\nTHERE</text>
+    <text color="asd" weight="5">I am\nIRON
+    MAN</text>
 </stml>

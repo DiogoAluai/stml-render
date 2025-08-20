@@ -86,7 +86,11 @@ public class STMLParser {
             throw new SimpleTextParsingException("Text node has children count different than 1. Count: "
                     + childNodes.getLength());
         }
-        return childNodes.item(0).getTextContent().trim();
+        String newLineSurroundedWithWhiteSpacesRegex = "\\s*\\R\\s*";
+        return childNodes.item(0).getTextContent()
+                .trim()
+                .replace("\\n", "\n")
+                .replaceAll(newLineSurroundedWithWhiteSpacesRegex, "\n");
     }
 
     private static ArrayList<Attr> parseAttributesForElement(Element element) {

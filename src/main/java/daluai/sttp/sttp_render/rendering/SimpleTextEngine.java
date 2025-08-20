@@ -30,7 +30,7 @@ public class SimpleTextEngine {
      * Synchronous engine start
      */
     public void start(SimpleTextNode head) {
-        Runtime.getRuntime().addShutdownHook(new Thread(Toolkit::shutdown));
+        Runtime.getRuntime().addShutdownHook(new Thread(SimpleTextEngine::gracefullyShutdown));
         Toolkit.init();
 
         List<SimpleTextNode> childNodes = head.getChildNodes();
@@ -53,10 +53,16 @@ public class SimpleTextEngine {
                 .toList();
 
         try {
+            LOG.info("Starting engine");
             engineLoop(head, nodeWeights);
         } finally {
-            Toolkit.shutdown();
+            gracefullyShutdown();
         }
+    }
+
+    private static void gracefullyShutdown() {
+        LOG.info("Shutting down gracefully");
+        Toolkit.shutdown();
     }
 
     private void engineLoop(SimpleTextNode head, List<Double> nodeWeights) {

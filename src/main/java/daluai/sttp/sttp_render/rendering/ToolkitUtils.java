@@ -6,13 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public final class ToolkitUtils {
 
-    public static final int DEFAULT_WEIGHT = 80;
-    public static final int DEFAULT_HEIGHT = 24;
+    private static final int DEFAULT_WEIGHT = 80;
+    private static final int DEFAULT_HEIGHT = 24;
+    private static final String ETC = "...";
 
     private static final Logger LOG = LoggerFactory.getLogger(ToolkitUtils.class);
     private static final CharColor COLOR = new CharColor(CharColor.WHITE, CharColor.BLACK);
@@ -45,6 +47,9 @@ public final class ToolkitUtils {
         }
     }
 
+    /**
+     * Create a box with text at it's center. New line characters are supported.
+     */
     public static List<String> createTextBoxStrings(int cols, int rows, String text) {
         if (rows < MIN_BOX_VERTICAL_LENGTH) {
             // provide minimal box
@@ -56,19 +61,28 @@ public final class ToolkitUtils {
             return createBoxStrings(cols, rows);
         }
 
+        List<String> textLines = new ArrayList<>(Arrays.asList(text.split("\\n")));
+        int textLinesCount = textLines.size();
+        if (innerStringsCount < textLinesCount) {
+            textLines = textLines.subList(0, innerStringsCount - 1);
+            textLines.add(ETC);
+        }
+
+        int padding = innerStringsCount - textLinesCount;
         // favor first half when innerStringsCount is even
-        int innerIndexOfText = (innerStringsCount - 1) / 2;
+        int startPadding = padding / 2;
+
 
         String top = createBoxTopString(cols);
         String bottom = createBoxBottomString(cols);
-        List<String> boxInnerStrings = createBoxInnerStrings(innerStringsCount - 1, cols);
-        var firstHalf = boxInnerStrings.subList(0, innerIndexOfText);
-        var secondHalf = boxInnerStrings.subList(innerIndexOfText, boxInnerStrings.size());
+        List<String> innerPadding = createBoxInnerStrings(padding, cols);
+        var firstHalf = innerPadding.subList(0, startPadding);
+        var secondHalf = innerPadding.subList(startPadding, innerPadding.size());
 
         List<String> box = new ArrayList<>(rows);
         box.add(top);
         box.addAll(firstHalf);
-        box.add(createTextLine(cols, text));
+        textLines.forEach(line -> box.add(createTextLine(cols, line)));
         box.addAll(secondHalf);
         box.add(bottom);
 
@@ -81,9 +95,8 @@ public final class ToolkitUtils {
     private static String createTextLine(int cols, String text) {
         int supportedTextLength = cols - 2;
         if (text.length() > supportedTextLength) {
-            String etc = "...";
-            int textSnippetLength = supportedTextLength - etc.length();
-            text = text.substring(0, textSnippetLength) + etc;
+            int textSnippetLength = supportedTextLength - ETC.length();
+            text = text.substring(0, textSnippetLength) + ETC;
         }
         int totalPadding = cols - 2 - text.length();
         int leftPadding = totalPadding / 2;
