@@ -1,6 +1,6 @@
 run.sh
 debug.sh
-
+app.log
 
 /target/
 !.mvn/wrapper/maven-wrapper.jar

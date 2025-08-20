@@ -10,14 +10,13 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 
 /**
- *
+ * Renders xml stml file, which is received as first and only argument.
  */
 public class RenderApp {
 
     public static final double FRAMES_PER_SECOND = Double.parseDouble(System.getProperty("fps", "60"));
     public static final long FRAMERATE_MILLIS = (long) (1_000 / FRAMES_PER_SECOND);
 
-    // todo intersect logs somehow, to add them to a file instead of to the screen
     private static final Logger LOG = LoggerFactory.getLogger(RenderApp.class);
 
     public static void main( String[] args ) throws IOException, SAXException {

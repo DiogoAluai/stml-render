@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <shutdownHook class="ch.qos.logback.core.hook.DefaultShutdownHook"/>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>app.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
