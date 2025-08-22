@@ -16,7 +16,7 @@ And an example with data loading from a script:
 mvn exec:java -Dfps=10 -Dexec.args="example/data/index.stml"
 ```
 <div align="center">
- <img width="940" height="957" alt="image" src="https://github.com/user-attachments/assets/b74a59df-72b4-49c2-a908-02bb9f530f5a" />
+ <img width="470" height="478" alt="image" src="https://github.com/user-attachments/assets/b74a59df-72b4-49c2-a908-02bb9f530f5a" />
 </div>
 
 
