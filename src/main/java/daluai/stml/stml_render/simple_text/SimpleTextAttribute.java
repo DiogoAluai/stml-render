@@ -1,6 +1,6 @@
-package daluai.sttp.sttp_render.simple_text;
+package daluai.stml.stml_render.simple_text;
 
-import daluai.sttp.sttp_render.parse.SimpleTextParsingException;
+import daluai.stml.stml_render.parse.SimpleTextParsingException;
 
 import java.util.Arrays;
 
@@ -9,7 +9,8 @@ public enum SimpleTextAttribute {
     VERSION,
     ALIGNMENT,
     WEIGHT,
-    COLOR;
+    COLOR,
+    DATA; // format: "bash:some_script"
 
     public static void validate(String attributeString) {
         Arrays.stream(values())

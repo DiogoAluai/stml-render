@@ -1,14 +1,21 @@
-package daluai.sttp.sttp_render.simple_text;
+package daluai.stml.stml_render.simple_text;
 
+import daluai.stml.stml_render.data.BashDataLoader;
+import daluai.stml.stml_render.data.DataLoader;
 import org.w3c.dom.Attr;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
-import static daluai.sttp.sttp_render.simple_text.SimpleTextNodeType.UNSPECIFIED;
+import static daluai.stml.stml_render.simple_text.SimpleTextNodeType.UNSPECIFIED;
 
+/**
+ * STML Node. Text is atomic, to handle asynchronous set during render loop.
+ */
 public class SimpleTextNode {
 
     private static final int DEFAULT_WEIGHT = 1;
@@ -17,12 +24,12 @@ public class SimpleTextNode {
     private List<SimpleTextNode> childNodes;
 
     private SimpleTextNodeType nodeType;
-    private String text;
+    private AtomicReference<String> text;
     private List<Attr> attributes;
 
     public SimpleTextNode() {
         this.nodeType = UNSPECIFIED;
-        this.text = "";
+        this.text = new AtomicReference<>("");
         this.childNodes = new ArrayList<>();
     }
 
@@ -50,11 +57,11 @@ public class SimpleTextNode {
     }
 
     public String getText() {
-        return text;
+        return text.get();
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text.set(text);
     }
 
     public List<Attr> getAttributes() {
@@ -71,6 +78,19 @@ public class SimpleTextNode {
 
     public Alignment getAlignment() {
         return getAttributeValue(SimpleTextAttribute.ALIGNMENT, Alignment::parse, DEFAULT_ALIGNMENT);
+    }
+
+    public String getDataScript() {
+        return getAttributeValue(SimpleTextAttribute.DATA, Function.identity(), null);
+    }
+
+    public DataLoader getDataLoader() {
+        String dataScript = getDataScript();
+        if (dataScript == null || dataScript.isEmpty()) {
+            return null;
+        }
+        //todo encapsulate logic
+        return new BashDataLoader(new File(dataScript.split(":")[1]));
     }
 
     private <T> T getAttributeValue(SimpleTextAttribute attribute, Function<String, T> parsingFunction, T defaultValue) {

@@ -1,7 +1,7 @@
-package daluai.sttp.sttp_render.rendering;
+package daluai.stml.stml_render.rendering;
 
-import daluai.sttp.sttp_render.simple_text.SimpleTextNode;
-import daluai.sttp.sttp_render.simple_text.SimpleTextNodeType;
+import daluai.stml.stml_render.simple_text.SimpleTextNode;
+import daluai.stml.stml_render.simple_text.SimpleTextNodeType;
 
 import java.util.ArrayList;
 import java.util.List;

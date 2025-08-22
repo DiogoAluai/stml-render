@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>daluai.sttp</groupId>
-  <artifactId>sttp-render</artifactId>
+  <groupId>daluai.stml</groupId>
+  <artifactId>stml-render</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
@@ -26,7 +26,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>daluai.sttp.sttp_render.RenderApp</mainClass>
+          <mainClass>daluai.stml.stml_render.RenderApp</mainClass>
           <arguments>
           </arguments>
         </configuration>

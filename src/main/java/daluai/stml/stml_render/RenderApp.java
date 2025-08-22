@@ -1,8 +1,8 @@
-package daluai.sttp.sttp_render;
+package daluai.stml.stml_render;
 
-import daluai.sttp.sttp_render.parse.STMLParser;
-import daluai.sttp.sttp_render.rendering.SimpleTextEngine;
-import daluai.sttp.sttp_render.simple_text.SimpleTextNode;
+import daluai.stml.stml_render.parse.STMLParser;
+import daluai.stml.stml_render.rendering.SimpleTextEngine;
+import daluai.stml.stml_render.simple_text.SimpleTextNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -15,7 +15,8 @@ import java.io.IOException;
 public class RenderApp {
 
     public static final double FRAMES_PER_SECOND = Double.parseDouble(System.getProperty("fps", "60"));
-    public static final long FRAMERATE_MILLIS = (long) (1_000 / FRAMES_PER_SECOND);
+    public static final long FRAME_RATE_MILLIS = (long) (1_000 / FRAMES_PER_SECOND);
+    public static final long DATA_REFRESH_RATE_MILLIS = 3000;
 
     private static final Logger LOG = LoggerFactory.getLogger(RenderApp.class);
 
@@ -30,8 +31,8 @@ public class RenderApp {
             return;
         }
 
-        SimpleTextNode headNode = STMLParser.parse(xmlFileName);
-        new SimpleTextEngine(FRAMERATE_MILLIS).start(headNode);
+        SimpleTextNode headNode = new STMLParser(xmlFileName).parse();
+        new SimpleTextEngine(FRAME_RATE_MILLIS, DATA_REFRESH_RATE_MILLIS).start(headNode);
     }
 
 }

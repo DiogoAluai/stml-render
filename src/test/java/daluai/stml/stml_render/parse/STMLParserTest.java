@@ -1,7 +1,7 @@
-package daluai.sttp.sttp_render.parse;
+package daluai.stml.stml_render.parse;
 
-import daluai.sttp.sttp_render.simple_text.SimpleTextNodeType;
-import daluai.sttp.sttp_render.TestUtils;
+import daluai.stml.stml_render.simple_text.SimpleTextNodeType;
+import daluai.stml.stml_render.TestUtils;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
@@ -16,7 +16,7 @@ public class STMLParserTest {
     @Test
     public void parsing() throws IOException, SAXException {
         var res = testUtils.getResourcePath("simple_grid.xml");
-        var headNode = STMLParser.parse(res.getPath());
+        var headNode = new STMLParser(res.getPath()).parse();
 
         assertEquals(headNode.getText(), "");
         assertEquals(headNode.getNodeType(), SimpleTextNodeType.STML);

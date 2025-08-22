@@ -1,8 +1,8 @@
-package daluai.sttp.sttp_render.parse;
+package daluai.stml.stml_render.parse;
 
-import daluai.sttp.sttp_render.simple_text.SimpleTextAttribute;
-import daluai.sttp.sttp_render.simple_text.SimpleTextNode;
-import daluai.sttp.sttp_render.simple_text.SimpleTextNodeType;
+import daluai.stml.stml_render.simple_text.SimpleTextAttribute;
+import daluai.stml.stml_render.simple_text.SimpleTextNode;
+import daluai.stml.stml_render.simple_text.SimpleTextNodeType;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,31 +24,49 @@ import java.util.Objects;
  */
 public class STMLParser {
 
-    private static final DocumentBuilder builder;
+    private final DocumentBuilder builder;
+    private final ValueParser valueParser;
+    private final File xmlFile;
 
-    static {
+    public STMLParser(String xmlFileName) {
+        this.valueParser = new ValueParser();
+        this.xmlFile = validateFile(new File(xmlFileName));
+        this.builder = safeCreateDocumentBuilder();
+    }
+
+    private static File validateFile(File file) {
+        if (!file.exists()) {
+            throw new RuntimeException("File does not exist: " + file.getAbsolutePath());
+        }
+        if (!file.canRead()) {
+            throw new RuntimeException("Cannot read file: " + file.getAbsolutePath());
+        }
+        return file;
+    }
+
+    private static DocumentBuilder safeCreateDocumentBuilder() {
+        final DocumentBuilder builder;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             // default configuration cannot be wrong, therefore never throwing an exception
             throw new RuntimeException(e);
         }
+        return builder;
     }
 
     /**
      * Return head node
      */
-    public static SimpleTextNode parse(String xmlFileName) throws IOException, SAXException {
-        File xmlFile = new File(xmlFileName);
+    public SimpleTextNode parse() throws IOException, SAXException {
         Document doc = builder.parse(xmlFile);
         doc.getDocumentElement().normalize();
-
         SimpleTextNode headNode = new SimpleTextNode();
         traverse(headNode, doc.getDocumentElement());
         return headNode;
     }
 
-    static void traverse(SimpleTextNode simpleTextNode, Node node) throws SimpleTextParsingException {
+    void traverse(SimpleTextNode simpleTextNode, Node node) throws SimpleTextParsingException {
         Element element = (Element) node;
         String tagName = element.getTagName();
 
@@ -63,10 +81,17 @@ public class STMLParser {
         }
 
         if (SimpleTextNodeType.TEXT == stNodeType) {
-            String text = parseTextInsideTextNode(node);
-            simpleTextNode.setText(text);
+            String textValue = null;
+            NodeList childNodes = node.getChildNodes();
+            if (childNodes.getLength() == 1) {
+                String text = childNodes.item(0).getTextContent();
+                textValue = valueParser.parseText(text);
+            }
+            if (textValue == null && simpleTextNode.getDataScript() == null) {
+                throw new SimpleTextParsingException("Got no text nor data script or text node");
+            }
+            simpleTextNode.setText(textValue);
         }
-
 
         NodeList children = node.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
@@ -78,19 +103,6 @@ public class STMLParser {
             simpleTextNode.addChildNode(childSimpleTextNode);
             traverse(childSimpleTextNode, childItem);
         }
-    }
-
-    private static String parseTextInsideTextNode(Node node) {
-        NodeList childNodes = node.getChildNodes();
-        if (childNodes.getLength() != 1) {
-            throw new SimpleTextParsingException("Text node has children count different than 1. Count: "
-                    + childNodes.getLength());
-        }
-        String newLineSurroundedWithWhiteSpacesRegex = "\\s*\\R\\s*";
-        return childNodes.item(0).getTextContent()
-                .trim()
-                .replace("\\n", "\n")
-                .replaceAll(newLineSurroundedWithWhiteSpacesRegex, "\n");
     }
 
     private static ArrayList<Attr> parseAttributesForElement(Element element) {

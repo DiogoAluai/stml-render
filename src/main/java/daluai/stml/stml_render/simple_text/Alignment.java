@@ -1,4 +1,4 @@
-package daluai.sttp.sttp_render.simple_text;
+package daluai.stml.stml_render.simple_text;
 
 import java.util.Arrays;
 

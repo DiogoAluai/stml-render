@@ -1,4 +1,4 @@
-package daluai.sttp.sttp_render.rendering;
+package daluai.stml.stml_render.rendering;
 
 import jcurses.system.CharColor;
 import jcurses.system.Toolkit;
