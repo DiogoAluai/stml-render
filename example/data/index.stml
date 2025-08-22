@@ -1,0 +1,4 @@
+<stml version="1">
+    <text>Hello\nTHERE</text>
+    <text data="bash:example/data/data.sh" weight="5"></text>
+</stml>
